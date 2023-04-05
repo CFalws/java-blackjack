@@ -25,7 +25,7 @@ public class ParticipantCardsDto implements CardsDto {
         final List<Card> cards = participant.getCards();
 
         return cards.stream()
-                .map(CardDto::new)
-                .collect(toUnmodifiableList());
+                    .map(CardDto::new)
+                    .collect(toUnmodifiableList());
     }
 }

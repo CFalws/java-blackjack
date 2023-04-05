@@ -16,7 +16,7 @@ public class ParticipantsCardsDto {
 
     public List<CardsDto> getParticipantsCards() {
         return participants.stream()
-                .map(ParticipantCardsDto::new)
-                .collect(toUnmodifiableList());
+                           .map(ParticipantCardsDto::new)
+                           .collect(toUnmodifiableList());
     }
 }

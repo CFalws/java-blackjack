@@ -17,7 +17,7 @@ public class Players {
         this.players = players;
     }
 
-    public static Players from(final List<Name> playerNames, final List<BettingAmount> bettingAmounts) {
+    public static Players of(final List<Name> playerNames, final List<BettingAmount> bettingAmounts) {
         validateSizeEquality(playerNames, bettingAmounts);
 
         final List<Participant> participants = new ArrayList<>();
@@ -43,14 +43,14 @@ public class Players {
 
     public boolean hasPlayerToDeal() {
         return players.stream()
-                .anyMatch(Participant::isDrawable);
+                      .anyMatch(Participant::isDrawable);
     }
 
     public Participant getPlayerToDeal() {
         return players.stream()
-                .filter(Participant::isDrawable)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("카드를 받을 수 있는 플레이어가 없습니다"));
+                      .filter(Participant::isDrawable)
+                      .findFirst()
+                      .orElseThrow(() -> new IllegalStateException("카드를 받을 수 있는 플레이어가 없습니다"));
     }
 
     public Participant hitCurrentPlayer(final Deck deck) {
@@ -71,8 +71,8 @@ public class Players {
 
     public List<Integer> getPlayerEarnings(final Score dealerScore) {
         return players.stream()
-                .map(player -> player.getEarning(dealerScore))
-                .collect(toUnmodifiableList());
+                      .map(player -> player.getEarning(dealerScore))
+                      .collect(toUnmodifiableList());
     }
 
     public List<Participant> getPlayers() {

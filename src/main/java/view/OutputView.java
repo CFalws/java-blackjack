@@ -30,7 +30,7 @@ public class OutputView {
 
     public void printPlayersCardsWithScore(final ParticipantResultsDto playerResultsDto) {
         playerResultsDto.getResults()
-                .forEach(this::printParticipantCardsWithScore);
+                        .forEach(this::printParticipantCardsWithScore);
     }
 
     public void printParticipantCardsWithScore(final ResultDto dealerResultDto) {
@@ -47,9 +47,9 @@ public class OutputView {
 
     private String generateCardsFormat(final CardsDto cardsDto) {
         return cardsDto.getParticipantName() + " 카드: " + cardsDto.getCards()
-                .stream()
-                .map(cardDto -> cardDto.getNumber() + cardDto.getSymbol())
-                .collect(Collectors.joining(CARD_DELIMITER));
+                                                                 .stream()
+                                                                 .map(cardDto -> cardDto.getNumber() + cardDto.getSymbol())
+                                                                 .collect(Collectors.joining(CARD_DELIMITER));
     }
 
     public void printWinningAmountShowInfo() {

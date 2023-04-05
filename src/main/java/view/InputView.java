@@ -30,8 +30,8 @@ public class InputView {
 
     private List<String> trim(final List<String> playerNames) {
         return playerNames.stream()
-                .map(String::trim)
-                .collect(Collectors.toUnmodifiableList());
+                          .map(String::trim)
+                          .collect(Collectors.toUnmodifiableList());
     }
 
     private void validatePlayerNames(final List<String> playerNames) {
@@ -41,8 +41,8 @@ public class InputView {
 
     private List<Name> toNames(final List<String> nameStrings) {
         return nameStrings.stream()
-                .map(Name::new)
-                .collect(Collectors.toUnmodifiableList());
+                          .map(Name::new)
+                          .collect(Collectors.toUnmodifiableList());
     }
 
     private void validateHasNoBlankName(final List<String> playerNames) {

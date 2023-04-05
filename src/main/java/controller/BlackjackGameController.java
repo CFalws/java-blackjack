@@ -68,7 +68,8 @@ public class BlackjackGameController {
             final String hitOrStandString = inputView.readHitOrStand(playerToDeal.getName());
             final PlayerCommand hitOrStand = PlayerCommand.from(hitOrStandString);
 
-            final Participant currentPlayer = commandToAction.get(hitOrStand).apply(blackjackGame);
+            final Participant currentPlayer = commandToAction.get(hitOrStand)
+                                                             .apply(blackjackGame);
 
             outputView.printDealtCards(new ParticipantCardsDto(currentPlayer));
         }

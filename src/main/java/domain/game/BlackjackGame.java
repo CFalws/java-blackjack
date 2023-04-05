@@ -17,12 +17,12 @@ public class BlackjackGame {
     public BlackjackGame(final List<Name> playerNames, final List<BettingAmount> bettingAmounts) {
         this.deck = Deck.createFullDeck();
         this.dealer = new Dealer();
-        this.players = Players.from(playerNames, bettingAmounts);
+        this.players = Players.of(playerNames, bettingAmounts);
     }
 
     public void dealInitialHand() {
         deck.shuffle();
-        
+
         dealer.receiveInitialCards(deck);
 
         players.receiveInitialCards(deck);
@@ -50,8 +50,8 @@ public class BlackjackGame {
 
     public int getDealerEarning() {
         return getPlayerEarnings().stream()
-                .mapToInt(earning -> -1 * earning)
-                .sum();
+                                  .mapToInt(earning -> -1 * earning)
+                                  .sum();
     }
 
     public List<Integer> getPlayerEarnings() {

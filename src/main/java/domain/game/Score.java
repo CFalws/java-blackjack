@@ -31,13 +31,13 @@ public class Score {
 
     private static int sumScores(final List<Card> cards) {
         return cards.stream()
-                .mapToInt(Card::getScore)
-                .sum();
+                    .mapToInt(Card::getScore)
+                    .sum();
     }
 
     private static boolean hasAce(final List<Card> cards) {
         return cards.stream()
-                .anyMatch(Card::isAce);
+                    .anyMatch(Card::isAce);
     }
 
     private static int addBonusScoreIfNotBust(final int score) {
