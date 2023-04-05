@@ -55,6 +55,10 @@ public class BlackjackGameController {
 
         outputView.printInitialDealingInfo();
 
+        printInitialHandOfParticipants(blackjackGame);
+    }
+
+    private void printInitialHandOfParticipants(final BlackjackGame blackjackGame) {
         final Participant dealer = blackjackGame.getDealer();
         final List<Participant> players = blackjackGame.getPlayers();
 
@@ -92,22 +96,39 @@ public class BlackjackGameController {
     }
 
     private void showGameResult(final BlackjackGame blackjackGame) {
-        final Participant dealer = blackjackGame.getDealer();
-        final List<Participant> players = blackjackGame.getPlayers();
+        final ResultDto dealerResultDto = getDealerResult(blackjackGame);
 
-        final int dealerEarning = blackjackGame.getDealerEarning();
-        final List<Integer> playerEarnings = blackjackGame.getPlayerEarnings();
-
-        final ResultDto dealerResultDto = new ParticipantResultDto(dealer, dealerEarning);
-        final ParticipantResultsDto playerResultsDto = ParticipantResultsDto.of(players, playerEarnings);
+        final ParticipantResultsDto playerResultsDto = getPlayersResult(blackjackGame);
 
         printResult(dealerResultDto, playerResultsDto);
     }
 
+    private ResultDto getDealerResult(final BlackjackGame blackjackGame) {
+        final Participant dealer = blackjackGame.getDealer();
+        final int dealerEarning = blackjackGame.getDealerEarning();
+
+        return new ParticipantResultDto(dealer, dealerEarning);
+    }
+
+    private ParticipantResultsDto getPlayersResult(final BlackjackGame blackjackGame) {
+        final List<Participant> players = blackjackGame.getPlayers();
+        final List<Integer> playerEarnings = blackjackGame.getPlayerEarnings();
+
+        return ParticipantResultsDto.of(players, playerEarnings);
+    }
+
     private void printResult(final ResultDto dealerResultDto, final ParticipantResultsDto playerResultsDto) {
+        printCardsWithScore(dealerResultDto, playerResultsDto);
+
+        printEarnings(dealerResultDto, playerResultsDto);
+    }
+
+    private void printCardsWithScore(final ResultDto dealerResultDto, final ParticipantResultsDto playerResultsDto) {
         outputView.printParticipantCardsWithScore(dealerResultDto);
         outputView.printPlayersCardsWithScore(playerResultsDto);
+    }
 
+    private void printEarnings(final ResultDto dealerResultDto, final ParticipantResultsDto playerResultsDto) {
         outputView.printWinningAmountShowInfo();
 
         outputView.printParticipantEarning(dealerResultDto);
