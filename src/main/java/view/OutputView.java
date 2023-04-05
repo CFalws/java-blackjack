@@ -1,79 +1,71 @@
 package view;
 
-import controller.HandDto;
-import controller.HandScoreDto;
+import domain.card.Hand;
+import dto.*;
 
 import java.util.List;
-import java.util.Map;
-
-import static java.util.stream.Collectors.joining;
+import java.util.stream.Collectors;
 
 public class OutputView {
-    private static final String NAME_CARD_DELIMITER = ":";
 
-    private static final String CARD_DELIMITER = ", ";
+    private static final String CARD_DELIMITER = ",";
 
-    public void printInitialHands(final List<HandDto> handDtos) {
-        printInitialState(handDtos);
-        printInitialCards(handDtos);
+    public void printInitialDealingInfo() {
+        System.out.println(System.lineSeparator() + "모든 참여자에게 카드를 두 장씩 나누었습니다" + System.lineSeparator());
     }
 
-    private void printInitialState(final List<HandDto> handDtos) {
-        final String initialState = handDtos.stream()
-                                            .map(HandDto::name)
-                                            .collect(joining(CARD_DELIMITER, "", "에게 2장을 나누었습니다."));
-        System.out.println(initialState);
+    public void printDealtCards(final ParticipantsCardsDto participantsCardsDto) {
+        final List<CardsDto> cardsDtoList = participantsCardsDto.getParticipantsCards();
+
+        cardsDtoList.forEach(this::printDealtCards);
     }
 
-    private void printInitialCards(final List<HandDto> handDtos) {
-        handDtos.forEach(handDto -> {
-            if (handDto.name()
-                       .equals("딜러")) {
-                printFirstCard(handDto);
-                return;
-            }
-            printCards(handDto);
-        });
-    }
+    public void printDealerDealtInfo(final CardsDto dealerCards) {
+        final List<CardDto> cards = dealerCards.getCards();
 
-    private void printFirstCard(final HandDto handDto) {
-        System.out.println(generateCardsInfo(handDto.name(), handDto.cards()
-                                                                    .subList(0, 1)));
-    }
-
-    public void printCards(final HandDto handDto) {
-        System.out.println(generateCardsInfo(handDto.name(), handDto.cards()));
-    }
-
-    private String generateCardsInfo(final String name, final List<String> cards) {
-        final String cardsInfo = String.join(CARD_DELIMITER, cards);
-        return String.format("%s%s%s", name, NAME_CARD_DELIMITER, cardsInfo);
-    }
-
-    public void printIfDealerReceivedCard() {
-        System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
-    }
-
-    public void printHandsWithScore(final List<HandScoreDto> handScoreDtos) {
-        for (final HandScoreDto handScoreDto : handScoreDtos) {
-            System.out.println(generateCardsAndScore(handScoreDto));
+        if (cards.size() > Hand.INITIAL_DEALING_CARDS_COUNT) {
+            System.out.println(System.lineSeparator() + "딜러는 16 이하라 카드를 더 받았습니다." + System.lineSeparator());
         }
     }
 
-    private String generateCardsAndScore(final HandScoreDto participantDtoWithScore) {
-        final String name = participantDtoWithScore.name();
-        final List<String> cards = participantDtoWithScore.cards();
-        final int score = participantDtoWithScore.score();
-        return String.format("%s - 결과: %d", generateCardsInfo(name, cards), score);
+    public void printPlayersCardsWithScore(final ParticipantResultsDto playerResultsDto) {
+        playerResultsDto.getResults()
+                .forEach(this::printParticipantCardsWithScore);
     }
 
-    public void printEarningsInfo(final int dealerEarning, final Map<String, Integer> playerEarnings) {
-        System.out.println("## 최종 수익");
-        printDealerEarning(dealerEarning);
-        playerEarnings.forEach((name, earning) -> System.out.println(name + ": " + earning));
+    public void printParticipantCardsWithScore(final ResultDto dealerResultDto) {
+        System.out.println(generateCardsWithScoreFormat(dealerResultDto));
     }
 
-    private void printDealerEarning(final int dealerEarning) {
-        System.out.println("딜러: " + dealerEarning);
+    public void printDealtCards(final CardsDto cardsDto) {
+        System.out.println(generateCardsFormat(cardsDto));
+    }
+
+    private String generateCardsWithScoreFormat(final ResultDto dealerResultDto) {
+        return generateCardsFormat(dealerResultDto) + " - " + generateScoreFormat(dealerResultDto.getScore());
+    }
+
+    private String generateCardsFormat(final CardsDto cardsDto) {
+        return cardsDto.getParticipantName() + " 카드: " + cardsDto.getCards()
+                .stream()
+                .map(cardDto -> cardDto.getNumber() + cardDto.getSymbol())
+                .collect(Collectors.joining(CARD_DELIMITER));
+    }
+
+    public void printWinningAmountShowInfo() {
+        System.out.println(System.lineSeparator() + "## 최종 수익");
+    }
+
+    private String generateScoreFormat(final int score) {
+        return "결과: " + score;
+    }
+
+    public void printParticipantEarning(final ResultDto resultDto) {
+        System.out.println(resultDto.getParticipantName() + ": " + resultDto.getEarning());
+    }
+
+    public void printPlayerEarnings(final ParticipantResultsDto playerResultsDto) {
+        final List<ResultDto> results = playerResultsDto.getResults();
+        results.forEach(this::printParticipantEarning);
     }
 }

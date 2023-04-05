@@ -1,13 +1,11 @@
-import controller.BlackjackController;
+import controller.BlackjackGameController;
 import view.InputView;
 import view.OutputView;
-
-import java.util.Scanner;
 
 public class Application {
 
     public static void main(final String[] args) {
-        final BlackjackController controller = new BlackjackController(new InputView(new Scanner(System.in)), new OutputView());
-        controller.run();
+        final BlackjackGameController blackjackGameController = new BlackjackGameController(new InputView(), new OutputView());
+        blackjackGameController.run();
     }
 }
