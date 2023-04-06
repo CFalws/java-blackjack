@@ -12,13 +12,12 @@ public class BettingAmount {
     }
 
     public static BettingAmount from(final String amountString) {
-        validateNumberFormat(amountString);
-        return new BettingAmount(Integer.parseInt(amountString));
+        return new BettingAmount(validateNumberFormatAndGetInt(amountString));
     }
 
-    private static void validateNumberFormat(final String amountString) {
+    private static int validateNumberFormatAndGetInt(final String amountString) {
         try {
-            Integer.parseInt(amountString);
+            return Integer.parseInt(amountString);
         } catch (final NumberFormatException e) {
             throw new IllegalArgumentException("숫자로 입력해주세요");
         }
