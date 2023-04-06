@@ -26,11 +26,13 @@ public enum PlayerCommand {
     }
 
     private static void validateCodeExist(final String code) {
-        final boolean isCodeNotExist = Arrays.stream(values())
-                                             .noneMatch(playerCommand -> Objects.equals(code, playerCommand.code));
-
-        if (isCodeNotExist) {
+        if (isCodeNotExist(code)) {
             throw new IllegalArgumentException("카드를 더 받으려면 y, 그렇지 않은 경우 n을 입력하세요");
         }
+    }
+
+    private static boolean isCodeNotExist(final String code) {
+        return Arrays.stream(values())
+                     .noneMatch(playerCommand -> Objects.equals(code, playerCommand.code));
     }
 }
