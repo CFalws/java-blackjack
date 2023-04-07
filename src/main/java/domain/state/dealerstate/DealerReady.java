@@ -1,18 +1,19 @@
-package domain.state;
+package domain.state.dealerstate;
 
 import domain.card.Card;
 import domain.card.Deck;
 import domain.card.Hand;
 import domain.game.Score;
+import domain.state.StatusCalculator;
 
 import java.util.List;
 
-public class DealerHit implements DealerState {
+public class DealerReady implements DealerState {
 
     private final Hand hand;
 
-    public DealerHit(final Hand hand) {
-        this.hand = hand;
+    public DealerReady() {
+        this.hand = new Hand();
     }
 
     @Override
@@ -22,9 +23,9 @@ public class DealerHit implements DealerState {
 
     @Override
     public DealerState receiveCards(final Deck deck) {
-        final Card card = deck.drawCard();
+        final List<Card> cards = deck.drawCards(Hand.INITIAL_DEALING_CARDS_COUNT);
 
-        hand.addCard(card);
+        hand.addCards(cards);
 
         return new StatusCalculator().determineDealerStatus(hand);
     }

@@ -4,14 +4,14 @@ import domain.card.Card;
 import domain.card.Deck;
 import domain.card.Hand;
 import domain.game.Score;
-import domain.state.DealerReady;
-import domain.state.DealerState;
+import domain.state.dealerstate.DealerReady;
+import domain.state.dealerstate.DealerState;
 
 import java.util.List;
 
 public class Dealer implements Participant {
 
-    private static final String DEALER_NAME = "딜러";
+    static final String DEALER_NAME = "딜러";
 
     private DealerState dealerState;
 

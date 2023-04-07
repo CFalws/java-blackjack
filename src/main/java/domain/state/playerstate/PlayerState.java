@@ -1,7 +1,8 @@
-package domain.state;
+package domain.state.playerstate;
 
 import domain.card.Deck;
 import domain.game.Score;
+import domain.state.ParticipantState;
 
 public interface PlayerState extends ParticipantState {
 

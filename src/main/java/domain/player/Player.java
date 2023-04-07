@@ -5,8 +5,8 @@ import domain.card.Deck;
 import domain.card.Hand;
 import domain.game.BettingAmount;
 import domain.game.Score;
-import domain.state.PlayerReady;
-import domain.state.PlayerState;
+import domain.state.playerstate.PlayerReady;
+import domain.state.playerstate.PlayerState;
 
 import java.util.List;
 

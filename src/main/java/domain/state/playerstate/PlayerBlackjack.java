@@ -1,4 +1,4 @@
-package domain.state;
+package domain.state.playerstate;
 
 import domain.card.Card;
 import domain.card.Deck;
@@ -8,12 +8,12 @@ import domain.game.Score;
 
 import java.util.List;
 
-public class PlayerStand implements PlayerState {
+public class PlayerBlackjack implements PlayerState {
 
     private final Hand hand;
     private final BettingAmount bettingAmount;
 
-    public PlayerStand(final Hand hand, final BettingAmount bettingAmount) {
+    public PlayerBlackjack(final Hand hand, final BettingAmount bettingAmount) {
         this.hand = hand;
         this.bettingAmount = bettingAmount;
     }
@@ -25,7 +25,7 @@ public class PlayerStand implements PlayerState {
 
     @Override
     public PlayerState receiveCards(final Deck deck) {
-        throw new UnsupportedOperationException("스탠드 상태에선 카드를 받을 수 없습니다");
+        throw new UnsupportedOperationException("블랙잭 상태에선 카드를 받을 수 없습니다");
     }
 
     @Override
@@ -40,23 +40,10 @@ public class PlayerStand implements PlayerState {
 
     @Override
     public int getEarning(final Score dealerScore) {
-        final Score playerScore = hand.calculateScore();
-
-        if (isPlayerWin(dealerScore, playerScore)) {
-            return bettingAmount.getWinEarning();
-        }
-        if (isDraw(dealerScore, playerScore)) {
+        if (dealerScore.isEqualTo(Score.BLACKJACK_SCORE)) {
             return bettingAmount.getDrawEarning();
         }
-        return bettingAmount.getLoseEarning();
-    }
-
-    private boolean isDraw(final Score dealerScore, final Score playerScore) {
-        return dealerScore.isEqualTo(playerScore.getScore());
-    }
-
-    private boolean isPlayerWin(final Score dealerScore, final Score playerScore) {
-        return dealerScore.isLargerThan(Score.BLACKJACK_SCORE) || dealerScore.isLessThan(playerScore.getScore());
+        return bettingAmount.getBlackjackWinEarning();
     }
 
     @Override

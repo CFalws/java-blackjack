@@ -3,6 +3,13 @@ package domain.state;
 import domain.card.Hand;
 import domain.game.BettingAmount;
 import domain.game.Score;
+import domain.state.dealerstate.DealerHit;
+import domain.state.dealerstate.DealerStand;
+import domain.state.dealerstate.DealerState;
+import domain.state.playerstate.PlayerBlackjack;
+import domain.state.playerstate.PlayerBust;
+import domain.state.playerstate.PlayerHit;
+import domain.state.playerstate.PlayerState;
 
 import static domain.game.Score.BLACKJACK_SCORE;
 import static domain.game.Score.DEALER_STAND_LOWER_BOUND;

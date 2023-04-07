@@ -1,4 +1,4 @@
-package domain.state;
+package domain.state.playerstate;
 
 import domain.card.Card;
 import domain.card.Deck;
@@ -8,12 +8,12 @@ import domain.game.Score;
 
 import java.util.List;
 
-public class PlayerBlackjack implements PlayerState {
+public class PlayerBust implements PlayerState {
 
     private final Hand hand;
     private final BettingAmount bettingAmount;
 
-    public PlayerBlackjack(final Hand hand, final BettingAmount bettingAmount) {
+    public PlayerBust(final Hand hand, final BettingAmount bettingAmount) {
         this.hand = hand;
         this.bettingAmount = bettingAmount;
     }
@@ -25,7 +25,7 @@ public class PlayerBlackjack implements PlayerState {
 
     @Override
     public PlayerState receiveCards(final Deck deck) {
-        throw new UnsupportedOperationException("블랙잭 상태에선 카드를 받을 수 없습니다");
+        throw new UnsupportedOperationException("버스트 상태에선 카드를 받을 수 없습니다");
     }
 
     @Override
@@ -40,10 +40,7 @@ public class PlayerBlackjack implements PlayerState {
 
     @Override
     public int getEarning(final Score dealerScore) {
-        if (dealerScore.isEqualTo(Score.BLACKJACK_SCORE)) {
-            return bettingAmount.getDrawEarning();
-        }
-        return bettingAmount.getBlackjackWinEarning();
+        return bettingAmount.getLoseEarning();
     }
 
     @Override

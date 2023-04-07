@@ -1,4 +1,4 @@
-package domain.state;
+package domain.state.playerstate;
 
 import domain.card.Card;
 import domain.card.Deck;
@@ -8,13 +8,18 @@ import domain.game.Score;
 
 import java.util.List;
 
-public class PlayerHit implements PlayerState {
+import static domain.game.Score.BLACKJACK_SCORE;
+
+
+public class PlayerReady implements PlayerState {
+
+    private static final int INITIAL_DEALING_CARDS_COUNT = 2;
 
     private final Hand hand;
     private final BettingAmount bettingAmount;
 
-    public PlayerHit(final Hand hand, final BettingAmount bettingAmount) {
-        this.hand = hand;
+    public PlayerReady(final BettingAmount bettingAmount) {
+        this.hand = new Hand();
         this.bettingAmount = bettingAmount;
     }
 
@@ -25,11 +30,11 @@ public class PlayerHit implements PlayerState {
 
     @Override
     public PlayerState receiveCards(final Deck deck) {
-        final Card card = deck.drawCard();
+        final List<Card> cards = deck.drawCards(INITIAL_DEALING_CARDS_COUNT);
 
-        hand.addCard(card);
+        hand.addCards(cards);
 
-        return new StatusCalculator().determinePlayerStatus(hand, bettingAmount);
+        return nextStatus();
     }
 
     @Override
@@ -37,9 +42,18 @@ public class PlayerHit implements PlayerState {
         return hand.calculateScore();
     }
 
+    private PlayerState nextStatus() {
+        final Score score = hand.calculateScore();
+
+        if (score.isEqualTo(BLACKJACK_SCORE)) {
+            return new PlayerBlackjack(hand, bettingAmount);
+        }
+        return new PlayerHit(hand, bettingAmount);
+    }
+
     @Override
     public PlayerState stand() {
-        return new PlayerStand(hand, bettingAmount);
+        throw new UnsupportedOperationException("스탠드 할 수 없는 상태입니다");
     }
 
     @Override

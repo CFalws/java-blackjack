@@ -1,4 +1,4 @@
-package domain.state;
+package domain.state.dealerstate;
 
 import domain.card.Card;
 import domain.card.Deck;
@@ -7,26 +7,22 @@ import domain.game.Score;
 
 import java.util.List;
 
-public class DealerReady implements DealerState {
+public class DealerStand implements DealerState {
 
     private final Hand hand;
 
-    public DealerReady() {
-        this.hand = new Hand();
+    public DealerStand(final Hand hand) {
+        this.hand = hand;
     }
 
     @Override
     public boolean isDrawable() {
-        return true;
+        return false;
     }
 
     @Override
     public DealerState receiveCards(final Deck deck) {
-        final List<Card> cards = deck.drawCards(Hand.INITIAL_DEALING_CARDS_COUNT);
-
-        hand.addCards(cards);
-
-        return new StatusCalculator().determineDealerStatus(hand);
+        throw new UnsupportedOperationException("스탠드 상태에선 카드를 받을 수 없습니다");
     }
 
     @Override
